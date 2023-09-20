@@ -1,6 +1,7 @@
 
 import http, { IncomingMessage, ServerResponse } from "http";
-const port: number = 9999;
+import event from "events";
+const port: number = 7587;
 
 interface iData {
   id: number;
@@ -28,12 +29,7 @@ const set08: iData[] = [
     phone: 8023474637,
     stack: "Full-Stack",
   },
-  {
-    id: 3,
-    name: "Daniel",
-    phone: 8023474637,
-    stack: "Full-Stack",
-  }
+  
 ];
 
 const server = http.createServer(
@@ -53,21 +49,21 @@ const server = http.createServer(
         container.push(chunk);
       })
       .on("end", () => {
-  
         if (url === "/" && method === "GET") {
           status = 200;
-          response.message = "All set08 data gotten";
+          response.message = "Success";
           response.success = true;
           response.data = set08;
           res.write(JSON.stringify({ response, status }));
           res.end();
         }
 
+      
         if (url === "/" && method === "POST") {
           status = 201;
           const body = JSON.parse(container);
           set08.push(body);
-          response.message = "SUCCESSFULLY added";
+          response.message = "SUCCESSFULLY appended";
           response.success = true;
           response.data = set08;
           res.write(JSON.stringify({ response, status }));
